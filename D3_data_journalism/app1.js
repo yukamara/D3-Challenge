@@ -27,3 +27,22 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);
 
 //***********************************************
+
+// Load state data
+d3.csv("./data.csv").then(function(stateData) {
+
+  console.log(stateData);
+
+  // log a list of names
+  var states = stateData.map(data => data.state);
+  console.log("States", states);
+
+  // Cast each hours value in tvData as a number using the unary + operator
+  stateData.forEach(function(data) {
+    console.log("Age:", data.age);
+    console.log("Income:", data.income);
+    console.log("Healthcare:", data.healthcare);
+    console.log("Poverty:", data.poverty);
+  });
+
+});
