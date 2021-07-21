@@ -77,11 +77,13 @@ var svgWidth = 900;
 var svgHeight = 600;
 
 var margin = {
-  top: 40,
+  top: 50,
   right: 50,
-  bottom: 40,
+  bottom: 50,
   left: 50
 };
+
+
 
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
@@ -103,67 +105,67 @@ d3.csv("./data.csv").then(function(stateData) {
   var states = stateData.map(data => data.state);
   console.log("States", states);
 
-  // Step 1. Cast each hours value in stateData as a number using the unary + operator
+  // View some selected data on the console
   // =================================================================================
   stateData.forEach(function(data) {
-    console.log("Age:", data.age);
+    // console.log("Age:", data.age);
     // console.log("Income:", data.income);
     console.log("Healthcare:", data.healthcare);
     // console.log("Poverty:", data.poverty);
   });
 
-    // Step 2: Create scale functions
+    // Create scale functions
     // ==============================
     var xLinearScale = d3.scaleLinear()
-      .domain([25, d3.max(stateData, d => d.age)])
+      .domain([8, 23]) // .domain([8, d3.max(stateData, d => d.poverty)])
       .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
-      .domain([3, d3.max(stateData, d => d.healthcare)])
+      .domain([3, 26]) //.domain([3, d3.max(stateData, d => d.healthcare)])
       .range([height, 0]);
 
-    // Step 3: Create axis functions
+    // Create axis functions
     // ==============================
-    var bottomAxis = d3.axisBottom(xLinearScale);
-    var leftAxis = d3.axisLeft(yLinearScale);
+    var xAxis = d3.axisBottom(xLinearScale);
+    var yAxis = d3.axisLeft(yLinearScale);
 
-    // Step 4: Append Axes to the chart
+    // Append Axes to the chart
     // ==============================
     chartGroup.append("g")
       .attr("transform", `translate(0, ${height})`)
-      .call(bottomAxis);
+      .call(xAxis);
 
     chartGroup.append("g")
-      .call(leftAxis);
+      .call(yAxis);
 
-    // Step 5: Create Circles
+    // Create Circles
     // ==============================
     var circlesGroup = chartGroup.selectAll("circle")
     .data(stateData)
     .enter()
     .append("circle")
-    .attr("cx", d => xLinearScale(d.age))
+    .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", "15")
-    .attr("fill", "pink")
-    .attr("opacity", ".5");
+    .attr("fill", "blue")
+    .attr("opacity", ".25")
 
-    // Step 6: Initialize tool tip
+    // Initialize tool tip
     // ==============================
     var toolTip = d3.tip()
       .attr("class", "tooltip")
       .offset([80, -60])
       .html(function(d) {
-        return (`${d.state}<br>Age: ${d.age}<br>Healthcare: ${d.healthcare}`);
+        return (`${d.state}<br>Poverty(%): ${d.poverty}<br> Lacks Healthcare(%): ${d.healthcare}`);
       });
 
-    // Step 7: Create tooltip in the chart
+    // Create tooltip in the chart
     // ==============================
     chartGroup.call(toolTip);
 
-    // Step 8: Create event listeners to display and hide the tooltip
+    // Create event listeners to display and hide the tooltip
     // ==============================
-    circlesGroup.on("click", function(data) {
+    circlesGroup.on("mouseover", function(data) {
       toolTip.show(data, this);
     })
       // onmouseout event
@@ -173,17 +175,17 @@ d3.csv("./data.csv").then(function(stateData) {
 
     // Create axes labels
     chartGroup.append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left + 40)
+      .attr("transform", "rotate(90)")
+      .attr("y", 0 - margin.left -10)
       .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .attr("class", "axisText")
-      .text("Number of Billboard 100 Hits");
+      .text("Lacks Healthcare (%)");
 
     chartGroup.append("text")
-      .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
+      .attr("transform", `translate(${width / 2}, ${height + margin.top})`)
       .attr("class", "axisText")
-      .text("Age vs. Healthcare by State");
+      .text("Poverty Rate");
   }).catch(function(error) {
     console.log(error);
   });
