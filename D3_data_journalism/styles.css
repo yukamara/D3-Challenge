@@ -1,20 +1,21 @@
 .tooltip {
     position: absolute;
-    width: 135px;
-    height: 60px;
+    width: 170px;
+    height: 70px;
     padding: 2px;
     padding-top: 8px;
-    font: 12px sans-serif;
-    color: white;
-    text-align: center;
-    background: #551aaf;
+    font: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    color: #000000;
+    text-align: left;
+    background-color: aquamarine;
     border: 0;
     border-radius: 10px;
   }
   
   .axisText {
-    font-family: sans-serif;
+    font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
-    fill: #551aaf;
+    fill: #0000ff;
     text-anchor: middle;
   }
