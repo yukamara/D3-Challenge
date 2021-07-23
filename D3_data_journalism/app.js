@@ -1,6 +1,8 @@
+// Set SVG dimensions
 var svgWidth = 1200;
 var svgHeight = 800;
 
+// Set margins on all four sides of SVG element
 var margin = {
   top: 20,
   right: 40,
@@ -8,8 +10,7 @@ var margin = {
   left: 100
 };
 
-
-
+// Define width and height
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
@@ -37,13 +38,6 @@ d3.csv("./data.csv").then(function (stateData) {
   //   console.log("Income:", data.income);
   //   console.log("Healthcare:", data.healthcare);
   //   console.log("Poverty:", data.poverty);
-  // });
-
-  // Parse Data/Cast as numbers
-  // ==============================
-  // hairData.forEach(function(data) {
-  //   data.poverty = +data.poverty;
-  //   data.healthcare = +healthcare;
   // });
 
   // Create scale functions
@@ -89,7 +83,7 @@ d3.csv("./data.csv").then(function (stateData) {
       return (`${d.abbr}`)
     })
     .attr("class", "stateAbbr")
-    //.attr("style", "color: red; font-size: 12px")
+    .attr("style", "color: red; font-size: 10px")
     .attr("dx", d => xLinearScale(d.poverty))
     .attr("dy", d => yLinearScale(d.healthcare))
 
